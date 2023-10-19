@@ -22,7 +22,7 @@ function KanbanBoard() {
 
   const [tasks, setTasks] = useState(getTasksFromLocalStorage);
 
-  const columnsId = useMemo(() => columns?.map((col) => col.id)[columns]);
+  const columnsId = useMemo(() => columns?.map((col) => col.id), [columns]);
 
   const [activeColumn, setActiveColumn] = useState(null);
 
