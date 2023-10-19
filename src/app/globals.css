@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.link-active {
+  background-color: rgba(248, 245, 245, 0.3);
+}
+
+.hover-link:hover {
+  background-color: rgba(248, 245, 245, 0.1);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background: #ddd;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-xl;
+}
+
+.task > ::-webkit-scrollbar-thumb {
+  @apply bg-sky-500 rounded-xl;
+}
+
+.bgPrimary {
+  background-color: rgba(255, 255, 255, 0.3);
+}
