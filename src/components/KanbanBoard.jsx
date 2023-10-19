@@ -22,7 +22,7 @@ function KanbanBoard() {
 
   const [tasks, setTasks] = useState(getTasksFromLocalStorage);
 
-  const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
+  const columnsId = useMemo(() => columns?.map((col) => col.id)[columns]);
 
   const [activeColumn, setActiveColumn] = useState(null);
 
@@ -61,7 +61,7 @@ function KanbanBoard() {
         <div className="m-auto flex gap-4">
           <div className="flex gap-4">
             <SortableContext items={columnsId}>
-              {columns.map((col) => (
+              {columns?.map((col) => (
                 <ColumnContainer
                   key={col.id}
                   column={col}
@@ -120,7 +120,7 @@ function KanbanBoard() {
               />
             )}
           </DragOverlay>,
-          document.body
+          document?.body
         )}
       </DndContext>
     </div>
