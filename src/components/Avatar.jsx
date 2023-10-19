@@ -3,7 +3,6 @@ import Avatar from "react-avatar";
 
 const AvatarComponent = (props) => {
   const session = useSession();
-  console.log(session);
 
   return (
     <Avatar

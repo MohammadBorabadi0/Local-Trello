@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
@@ -18,8 +18,9 @@ import {
 } from "@/utils/functions";
 
 function KanbanBoard() {
-  const [columns, setColumns] = useState(getColumnsFromLocalStorage);
+  const [mounted, setMounted] = useState(false);
 
+  const [columns, setColumns] = useState(getColumnsFromLocalStorage);
   const [tasks, setTasks] = useState(getTasksFromLocalStorage);
 
   const columnsId = useMemo(() => columns?.map((col) => col.id), [columns]);
@@ -36,6 +37,10 @@ function KanbanBoard() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -44,42 +49,44 @@ function KanbanBoard() {
     })
   );
 
-  return (
-    <div
-      className="
+  if (mounted)
+    return (
+      <div
+        className="
         flex
         mt-32
         mx-4
     "
-    >
-      <DndContext
-        sensors={sensors}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDragOver={onDragOver}
       >
-        <div className="m-auto flex gap-4">
-          <div className="flex gap-4">
-            <SortableContext items={columnsId}>
-              {columns?.map((col) => (
-                <ColumnContainer
-                  key={col.id}
-                  column={col}
-                  updateColumn={updateColumn}
-                  deleteColumn={deleteColumn}
-                  createTask={createTask}
-                  deleteTask={deleteTask}
-                  updateTask={updateTask}
-                  tasks={tasks.filter((task) => task.columnId === col.id)}
-                />
-              ))}
-            </SortableContext>
-          </div>
-          <button
-            onClick={() => {
-              createNewColumn();
-            }}
-            className="
+        <DndContext
+          sensors={sensors}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+        >
+          <div className="m-auto flex gap-4">
+            <section className="flex gap-4">
+              <SortableContext items={columnsId}>
+                {columns?.map((col) => (
+                  <ColumnContainer
+                    key={col.id}
+                    column={col}
+                    updateColumn={updateColumn}
+                    deleteColumn={deleteColumn}
+                    createTask={createTask}
+                    deleteTask={deleteTask}
+                    updateTask={updateTask}
+                    tasks={tasks.filter((task) => task.columnId === col.id)}
+                  />
+                ))}
+              </SortableContext>
+            </section>
+
+            <button
+              onClick={() => {
+                createNewColumn();
+              }}
+              className="
       w-[275px]
       h-fit
       text-white
@@ -92,39 +99,41 @@ function KanbanBoard() {
       gap-2
       mr-3
       "
-          >
-            + Add another list
-          </button>
-        </div>
+            >
+              + Add another list
+            </button>
+          </div>
 
-        {createPortal(
-          <DragOverlay>
-            {activeColumn && (
-              <ColumnContainer
-                column={activeColumn}
-                updateColumn={updateColumn}
-                deleteColumn={deleteColumn}
-                createTask={createTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id
-                )}
-              />
-            )}
-            {activeTask && (
-              <TaskCard
-                task={activeTask}
-                deleteTask={deleteTask}
-                updateTask={updateTask}
-              />
-            )}
-          </DragOverlay>,
-          document?.body
-        )}
-      </DndContext>
-    </div>
-  );
+          {mounted
+            ? createPortal(
+                <DragOverlay>
+                  {activeColumn && (
+                    <ColumnContainer
+                      column={activeColumn}
+                      updateColumn={updateColumn}
+                      deleteColumn={deleteColumn}
+                      createTask={createTask}
+                      deleteTask={deleteTask}
+                      updateTask={updateTask}
+                      tasks={tasks.filter(
+                        (task) => task.columnId === activeColumn.id
+                      )}
+                    />
+                  )}
+                  {activeTask && (
+                    <TaskCard
+                      task={activeTask}
+                      deleteTask={deleteTask}
+                      updateTask={updateTask}
+                    />
+                  )}
+                </DragOverlay>,
+                document.body
+              )
+            : null}
+        </DndContext>
+      </div>
+    );
 
   function createTask(columnId) {
     const newTask = {
