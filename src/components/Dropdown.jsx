@@ -11,10 +11,16 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import AvatarComponent from "./Avatar";
 import { useRouter } from "next/navigation";
+import { useColorStore, useThemeStore } from "@/store/store";
 
 export default function DropdownComponent() {
   const { data } = useSession();
   const router = useRouter();
+
+  const themeStore = useThemeStore((state) => state);
+  const colorStore = useColorStore((state) => state);
+
+  console.log({ themeStore });
 
   return (
     <div className="flex items-center gap-4">

@@ -48,7 +48,7 @@ export const useColorStore = create((set) => ({
 
 export const useThemeStore = create((set) => ({
     lightMode: getLightModeFromLocalStorage || true,
-    bgTheme: getBgThemeFromLocalStorage || "F1F2F4",
+    bgTheme: getBgThemeFromLocalStorage || "#F1F2F4",
     setBgTheme: (isDarkMode) => {
         set({ bgTheme: isDarkMode ? '#222' : '#F1F2F4' });
         localStorage.setItem('bgTheme', JSON.stringify(isDarkMode ? '#222' : '#F1F2F4'))

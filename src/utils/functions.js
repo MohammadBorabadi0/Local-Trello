@@ -23,25 +23,25 @@ if (typeof window !== 'undefined') {
     if (localStorage.getItem("primaryColors")) {
         getPrimaryColorsFromLocalStorage = JSON.parse(localStorage.getItem("primaryColors"));
     } else {
-        getPrimaryColorsFromLocalStorage = [];
+        getPrimaryColorsFromLocalStorage = null;
     }
 
     if (localStorage.getItem("secondaryColors")) {
         getSecondaryColorsFromLocalStorage = JSON.parse(localStorage.getItem("secondaryColors"));
     } else {
-        getSecondaryColorsFromLocalStorage = [];
+        getSecondaryColorsFromLocalStorage = null;
     }
 
     if (localStorage.getItem("lightMode")) {
         getLightModeFromLocalStorage = JSON.parse(localStorage.getItem("lightMode"));
     } else {
-        getLightModeFromLocalStorage = [];
+        getLightModeFromLocalStorage = null;
     }
 
     if (localStorage.getItem("bgTheme")) {
         getBgThemeFromLocalStorage = JSON.parse(localStorage.getItem("bgTheme"));
     } else {
-        getBgThemeFromLocalStorage = [];
+        getBgThemeFromLocalStorage = null;
     }
 }
 
