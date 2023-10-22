@@ -36,8 +36,10 @@ export default function DropdownComponent() {
           <DropdownItem>
             <div className="flex items-center gap-2">
               <AvatarComponent size={30} textSizeRatio={1} />
-              <h4>{data?.user?.name || ""}</h4>
-              <h4>{data?.user?.email || ""}</h4>
+              <div className="flex flex-col gap-1">
+                <h4>{data?.user?.name || ""}</h4>
+                <h4>{data?.user?.email || ""}</h4>
+              </div>
             </div>
           </DropdownItem>
           <DropdownItem
