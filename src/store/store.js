@@ -34,8 +34,8 @@ export const secondaryColors = {
 }
 
 export const useColorStore = create((set) => ({
-    bgPrimaryTheme: getPrimaryColorsFromLocalStorage,
-    bgSecondaryTheme: getSecondaryColorsFromLocalStorage,
+    bgPrimaryTheme: getPrimaryColorsFromLocalStorage || primaryColors.blue,
+    bgSecondaryTheme: getSecondaryColorsFromLocalStorage || secondaryColors.blue,
     setBgPrimaryTheme: (bgColor) => {
         set({ bgPrimaryTheme: primaryColors[bgColor] });
         localStorage.setItem('primaryColors', JSON.stringify(primaryColors[bgColor]))
@@ -47,8 +47,8 @@ export const useColorStore = create((set) => ({
 }));
 
 export const useThemeStore = create((set) => ({
-    lightMode: getLightModeFromLocalStorage,
-    bgTheme: getBgThemeFromLocalStorage,
+    lightMode: getLightModeFromLocalStorage || true,
+    bgTheme: getBgThemeFromLocalStorage || "F1F2F4",
     setBgTheme: (isDarkMode) => {
         set({ bgTheme: isDarkMode ? '#222' : '#F1F2F4' });
         localStorage.setItem('bgTheme', JSON.stringify(isDarkMode ? '#222' : '#F1F2F4'))
