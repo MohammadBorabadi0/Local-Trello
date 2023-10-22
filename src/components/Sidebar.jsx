@@ -20,7 +20,7 @@ const Sidebar = () => {
   return (
     <aside
       className={`h-[93vh] fixed top-12 bottom-0 left-0 z-20 border-r border-gray-200 text-white ${
-        showSidebar ? "min-w-[300px]" : "min-w-[16px]"
+        showSidebar ? "min-w-[260px]" : "min-w-[16px]"
       } relative transition-all duration-200`}
       style={{ backgroundColor: bgSecondaryTheme }}
     >

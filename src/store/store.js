@@ -1,3 +1,4 @@
+import { getBgThemeFromLocalStorage, getLightModeFromLocalStorage, getPrimaryColorsFromLocalStorage, getSecondaryColorsFromLocalStorage } from "@/utils/functions";
 import { create } from "zustand";
 
 export const useSidebarStore = create((set) => ({
@@ -33,25 +34,27 @@ export const secondaryColors = {
 }
 
 export const useColorStore = create((set) => ({
-    bgPrimaryTheme: primaryColors.green,
-    bgSecondaryTheme: secondaryColors.green,
+    bgPrimaryTheme: getPrimaryColorsFromLocalStorage,
+    bgSecondaryTheme: getSecondaryColorsFromLocalStorage,
     setBgPrimaryTheme: (bgColor) => {
         set({ bgPrimaryTheme: primaryColors[bgColor] });
+        localStorage.setItem('primaryColors', JSON.stringify(primaryColors[bgColor]))
     },
     setBgSecondaryTheme: (bgColor) => {
         set({ bgSecondaryTheme: secondaryColors[bgColor] });
+        localStorage.setItem('secondaryColors', JSON.stringify(secondaryColors[bgColor]))
     },
 }));
 
 export const useThemeStore = create((set) => ({
-    lightMode: true,
-    bgTheme: "#F1F2F4",
+    lightMode: getLightModeFromLocalStorage,
+    bgTheme: getBgThemeFromLocalStorage,
     setBgTheme: (isDarkMode) => {
-        set({ bgTheme: isDarkMode ? '#222' : '#F1F2F4' })
+        set({ bgTheme: isDarkMode ? '#222' : '#F1F2F4' });
+        localStorage.setItem('bgTheme', JSON.stringify(isDarkMode ? '#222' : '#F1F2F4'))
     },
     setLightMode: (isDarkMode) => {
         set({ lightMode: isDarkMode });
+        localStorage.setItem('lightMode', JSON.stringify(isDarkMode))
     }
 }));
-
-// set({ darkMode: isDarkMode ? '#ebecf0' : '#F1F2F4' });

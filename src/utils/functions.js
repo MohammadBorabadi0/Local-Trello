@@ -1,6 +1,10 @@
 
 let getColumnsFromLocalStorage;
 let getTasksFromLocalStorage;
+let getPrimaryColorsFromLocalStorage;
+let getSecondaryColorsFromLocalStorage;
+let getLightModeFromLocalStorage;
+let getBgThemeFromLocalStorage;
 
 if (typeof window !== 'undefined') {
 
@@ -15,6 +19,30 @@ if (typeof window !== 'undefined') {
     } else {
         getTasksFromLocalStorage = [];
     }
+
+    if (localStorage.getItem("primaryColors")) {
+        getPrimaryColorsFromLocalStorage = JSON.parse(localStorage.getItem("primaryColors"));
+    } else {
+        getPrimaryColorsFromLocalStorage = [];
+    }
+
+    if (localStorage.getItem("secondaryColors")) {
+        getSecondaryColorsFromLocalStorage = JSON.parse(localStorage.getItem("secondaryColors"));
+    } else {
+        getSecondaryColorsFromLocalStorage = [];
+    }
+
+    if (localStorage.getItem("lightMode")) {
+        getLightModeFromLocalStorage = JSON.parse(localStorage.getItem("lightMode"));
+    } else {
+        getLightModeFromLocalStorage = [];
+    }
+
+    if (localStorage.getItem("bgTheme")) {
+        getBgThemeFromLocalStorage = JSON.parse(localStorage.getItem("bgTheme"));
+    } else {
+        getBgThemeFromLocalStorage = [];
+    }
 }
 
-export { getColumnsFromLocalStorage, getTasksFromLocalStorage };
+export { getColumnsFromLocalStorage, getTasksFromLocalStorage, getSecondaryColorsFromLocalStorage, getPrimaryColorsFromLocalStorage, getLightModeFromLocalStorage, getBgThemeFromLocalStorage };

@@ -54,7 +54,8 @@ function KanbanBoard() {
       <div
         className="
         flex
-        mt-32
+        mt-44
+        sm:mt-32
         mx-4
     "
       >

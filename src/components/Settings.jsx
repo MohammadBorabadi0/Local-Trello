@@ -8,6 +8,7 @@ import { signOut } from "next-auth/react";
 import { IoClose } from "react-icons/io5";
 import { GoSignOut } from "react-icons/go";
 import Toogle from "./Toggle";
+import { useRouter } from "next/navigation";
 
 const Settings = () => {
   const { setBgPrimaryTheme, setBgSecondaryTheme } = useColorStore(
@@ -15,6 +16,8 @@ const Settings = () => {
   );
   const { setShowSettings } = useSettingsStore((state) => state);
   const { bgTheme, lightMode } = useThemeStore((state) => state);
+
+  const router = useRouter();
 
   return (
     <section
@@ -47,6 +50,7 @@ const Settings = () => {
       </div>
       <button
         onClick={() => {
+          router.replace("/auth/login");
           signOut();
         }}
         className={`flex items-center gap-2 font-semibold mt-4 border-t w-full pt-2 ${

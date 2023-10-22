@@ -10,16 +10,16 @@ const ProviderButton = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log({ data, status });
     if (status === "authenticated") {
       router.push("/");
     }
   }, [router, data, status]);
 
+  
   return (
     <>
       <span className="text-xs text-gray-400 my-3">OR</span>
-      <div className="flex flex-col gap-3 w-[90%] mb-4">
+      <div className="flex flex-col gap-3 w-full md:w-[90%] mb-4">
         <Button onClick={() => signIn("google")}>
           <FcGoogle size={20} className="absolute left-2" />
           <span>Continue with Google</span>

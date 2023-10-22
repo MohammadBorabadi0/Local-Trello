@@ -2,16 +2,24 @@
 
 import KanbanBoard from "@/components/KanbanBoard";
 import Layout from "@/components/Layout/Layout";
+import Loading from "@/components/Loading";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 
 const Home = () => {
   const { status } = useSession();
   const router = useRouter();
 
-  if (status === 'unauthenticated') {
-    router.push('/auth/login');
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/login');
+    }
+  }, [router, status])
+
+  if (status === 'loading') {
+    return <Loading />
   }
 
   return (
