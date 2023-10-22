@@ -16,19 +16,19 @@ const handler = NextAuth({
                 try {
                     await connectDB();
                 } catch (error) {
-                    throw new Error("مشکلی در سرور رخ داده است");
+                    throw new Error("There was a problem with the server!");
                 }
 
                 if (!email || !password)
-                    throw new Error("لطفا اطلاعات معتبر وارد کنید");
+                    throw new Error("Please enter valid information!");
 
                 const user = await User.findOne({ email });
 
-                if (!user) throw new Error("لطفا ابتدا حساب کاربری ایجاد کنید");
+                if (!user) throw new Error("There is no user with this information!");
 
                 const isValid = await verifyPassword(password, user.password);
 
-                if (!isValid) throw new Error("ایمیل یا رمز عبور اشتباه است");
+                if (!isValid) throw new Error("The email or password is incorrect");
 
                 return { email };
             }
@@ -36,7 +36,6 @@ const handler = NextAuth({
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            // issuer: process.env.NEXTAUTH_CLIENT_ISSUER,
         }),
         GithubProvider({
             clientId: process.env.GITHUB_ID,
