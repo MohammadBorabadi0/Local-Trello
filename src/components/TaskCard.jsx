@@ -112,13 +112,15 @@ function TaskCard({
     >
       <section
         className={`flex flex-col w-full whitespace-pre-wrap ${
-          !task.tags.length && !task.members.length ? "gap-0 h-8 pt-[2px]" : "h-fit gap-2"
+          !task.tags.length && !task.members.length
+            ? "gap-0 h-8 pt-[2px]"
+            : "h-fit gap-2"
         }`}
       >
         <div className="flex items-center gap-1 text-white font-semibold">
           {task.tags.length
             ? task.tags.map((tag) => (
-                <span className="text-xs px-1 py-[1px] rounded-md bg-orange-600 w-fit">
+                <span key={tag.id} className="text-xs px-1 py-[1px] rounded-md bg-orange-600 w-fit">
                   {tag.name}
                 </span>
               ))
@@ -143,7 +145,7 @@ function TaskCard({
         <div className="flex items-center justify-end gap-1 text-white">
           {task.members.length
             ? task.members.map((member) => (
-                <AvatarComponent name={member.name} />
+                <AvatarComponent key={member.id} name={member.name} />
               ))
             : null}
         </div>
