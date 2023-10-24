@@ -11,11 +11,15 @@ function ColumnContainer({
   updateColumn,
   createTask,
   tasks,
+  setTasks,
   deleteTask,
-  updateTask,
+  updateTaskContent,
+  addTaskMember,
+  deleteTaskMember,
+  addTaskTag,
+  deleteTaskTag,
 }) {
   const [editMode, setEditMode] = useState(false);
-  const [showColumnOptions, setShowColumnOptions] = useState(false);
 
   const { bgTheme, lightMode } = useThemeStore((state) => state);
 
@@ -129,15 +133,6 @@ function ColumnContainer({
         >
           <BiTrash />
         </button>
-        {showColumnOptions && (
-          <ColumnModal
-            showColumnOptions={showColumnOptions}
-            setShowColumnOptions={setShowColumnOptions}
-            deleteColumn={deleteColumn}
-            setEditMode={setEditMode}
-            column={column}
-          />
-        )}
       </div>
 
       {/* Column task container */}
@@ -150,8 +145,14 @@ function ColumnContainer({
             <TaskCard
               key={task.id}
               task={task}
+              tasks={tasks}
+              setTasks={setTasks}
               deleteTask={deleteTask}
-              updateTask={updateTask}
+              updateTaskContent={updateTaskContent}
+              addTaskMember={addTaskMember}
+              addTaskTag={addTaskTag}
+              deleteTaskTag={deleteTaskTag}
+              deleteTaskMember={deleteTaskMember}
             />
           ))}
         </SortableContext>

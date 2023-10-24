@@ -6,7 +6,7 @@ const AvatarComponent = (props) => {
 
   return (
     <Avatar
-      name={data?.user?.name || data?.user?.email}
+      name={props?.name || data?.user?.name || data?.user?.email}
       textSizeRatio={props.textSizeRatio || 2}
       size={props.size || 27}
       round={props.round || "100%"}

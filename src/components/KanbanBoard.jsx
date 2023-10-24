@@ -76,7 +76,11 @@ function KanbanBoard() {
                     deleteColumn={deleteColumn}
                     createTask={createTask}
                     deleteTask={deleteTask}
-                    updateTask={updateTask}
+                    updateTaskContent={updateTaskContent}
+                    addTaskMember={addTaskMember}
+                    deleteTaskMember={deleteTaskMember}
+                    addTaskTag={addTaskTag}
+                    deleteTaskTag={deleteTaskTag}
                     tasks={tasks.filter((task) => task.columnId === col.id)}
                   />
                 ))}
@@ -115,7 +119,12 @@ function KanbanBoard() {
                       deleteColumn={deleteColumn}
                       createTask={createTask}
                       deleteTask={deleteTask}
-                      updateTask={updateTask}
+                      updateTaskContent={updateTaskContent}
+                      addTaskMember={addTaskMember}
+                      deleteTaskMember={deleteTaskMember}
+                      addTaskTag={addTaskTag}
+                      deleteTaskTag={deleteTaskTag}
+                      setTasks={setTasks}
                       tasks={tasks.filter(
                         (task) => task.columnId === activeColumn.id
                       )}
@@ -125,7 +134,7 @@ function KanbanBoard() {
                     <TaskCard
                       task={activeTask}
                       deleteTask={deleteTask}
-                      updateTask={updateTask}
+                      updateTaskContent={updateTaskContent}
                     />
                   )}
                 </DragOverlay>,
@@ -141,8 +150,9 @@ function KanbanBoard() {
       id: generateId(),
       columnId,
       content: `Task ${tasks.length + 1}`,
+      members: [],
+      tags: [],
     };
-
     setTasks([...tasks, newTask]);
   }
 
@@ -151,12 +161,49 @@ function KanbanBoard() {
     setTasks(newTasks);
   }
 
-  function updateTask(id, content) {
+  function updateTaskContent(id, content) {
     const newTasks = tasks.map((task) => {
       if (task.id !== id) return task;
       return { ...task, content };
     });
+    setTasks(newTasks);
+  }
 
+  function addTaskMember(id, member) {
+    const newTasks = tasks.map((task) => {
+      if (task.id !== id) return task;
+      return { ...task, members: [...task.members, member] };
+    });
+    setTasks(newTasks);
+  }
+
+  function deleteTaskMember(taskId, memberId) {
+    const newTasks = tasks.map((task) => {
+      if (task.id !== taskId) return task;
+      return {
+        ...task,
+        members: task.members.filter((member) => member.id !== memberId),
+      };
+    });
+    setTasks(newTasks);
+  }
+
+  function addTaskTag(id, tag) {
+    const newTasks = tasks.map((task) => {
+      if (task.id !== id) return task;
+      return { ...task, tags: [...task.tags, tag] };
+    });
+    setTasks(newTasks);
+  }
+
+  function deleteTaskTag(taskId, tagId) {
+    const newTasks = tasks.map((task) => {
+      if (task.id !== taskId) return task;
+      return {
+        ...task,
+        tags: task.tags.filter((tag) => tag.id !== tagId),
+      };
+    });
     setTasks(newTasks);
   }
 

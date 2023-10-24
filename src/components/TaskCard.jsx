@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { BiTrash } from "react-icons/bi";
+import { BiEdit } from "react-icons/bi";
 import { useThemeStore } from "@/store/store";
+import Modal from "./Modal/Modal";
+import AvatarComponent from "./Avatar";
 
-function TaskCard({ task, deleteTask, updateTask }) {
+function TaskCard({
+  task,
+  deleteTask,
+  updateTaskContent,
+  addTaskMember,
+  deleteTaskMember,
+  addTaskTag,
+  deleteTaskTag,
+  tasks,
+  setTasks,
+}) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(true);
-  const [showCardOptions, setShowCardOptions] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const { lightMode } = useThemeStore((state) => state);
 
@@ -45,7 +57,7 @@ function TaskCard({ task, deleteTask, updateTask }) {
         style={style}
         className="
         opacity-30
-        p-1.5 h-9 items-center flex text-left rounded-xl border-2 cursor-grab relative
+        p-1.5 h-fit items-center flex text-left rounded-xl border-2 cursor-grab relative
       "
       />
     );
@@ -58,7 +70,7 @@ function TaskCard({ task, deleteTask, updateTask }) {
         style={style}
         {...attributes}
         {...listeners}
-        className="px-4 py-1.5 h-fit items-center flex text-left rounded-xl cursor-grab relative"
+        className="px-3 py-1.5 h-fit items-center flex text-left rounded-xl cursor-grab relative"
       >
         <input
           className={`
@@ -73,7 +85,7 @@ function TaskCard({ task, deleteTask, updateTask }) {
             if (e.key !== "Enter") return;
             toggleEditMode();
           }}
-          onChange={(e) => updateTask(task.id, e.target.value)}
+          onChange={(e) => updateTaskContent(task.id, e.target.value)}
         />
       </div>
     );
@@ -86,8 +98,10 @@ function TaskCard({ task, deleteTask, updateTask }) {
       {...attributes}
       {...listeners}
       onClick={toggleEditMode}
-      className={`shadow-sm px-4 py-1.5 h-fit items-center flex text-left rounded-xl cursor-grab relative ${
-        lightMode ? "text-gray-600" : "text-gray-400"
+      className={`shadow-sm ${
+        lightMode ? "border hover:border-2 hover:border-black" : null
+      } px-3 py-1.5 h-fit flex items-center rounded-xl cursor-pointer ${
+        lightMode ? "text-gray-600" : "text-gray-200"
       }`}
       onMouseEnter={() => {
         setMouseIsOver(true);
@@ -96,30 +110,57 @@ function TaskCard({ task, deleteTask, updateTask }) {
         setMouseIsOver(false);
       }}
     >
-      <p className="w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
-        {task.content}
-      </p>
+      <section
+        className={`flex flex-col w-full whitespace-pre-wrap ${
+          !task.tags.length && !task.members.length ? "gap-0 h-8 pt-[2px]" : "h-fit gap-2"
+        }`}
+      >
+        <div className="flex items-center gap-1 text-white font-semibold">
+          {task.tags.length
+            ? task.tags.map((tag) => (
+                <span className="text-xs px-1 py-[1px] rounded-md bg-orange-600 w-fit">
+                  {tag.name}
+                </span>
+              ))
+            : null}
+        </div>
+        <div className="flex items-center justify-between">
+          <h3>{task.content}</h3>
+          {mouseIsOver && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowModal(true);
+              }}
+              className={`rounded opacity-60 hover:opacity-100 ${
+                lightMode ? "text-black" : "text-white"
+              }`}
+            >
+              <BiEdit />
+            </button>
+          )}
+        </div>
+        <div className="flex items-center justify-end gap-1 text-white">
+          {task.members.length
+            ? task.members.map((member) => (
+                <AvatarComponent name={member.name} />
+              ))
+            : null}
+        </div>
+      </section>
 
-      {mouseIsOver && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            deleteTask(task.id);
-          }}
-          className={`absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded opacity-60 hover:opacity-100 ${
-            lightMode ? "text-black" : "text-white"
-          }`}
-        >
-          <BiTrash />
-        </button>
-      )}
-      {showCardOptions && (
-        <TaskModal
-          showCardOptions={showCardOptions}
-          setShowCardOptions={setShowCardOptions}
-          deleteTask={deleteTask}
-          setEditMode={setEditMode}
+      {showModal && (
+        <Modal
+          showModal={showModal}
+          setShowModal={setShowModal}
           task={task}
+          tasks={tasks}
+          setTasks={setTasks}
+          deleteTask={deleteTask}
+          addTaskMember={addTaskMember}
+          deleteTaskMember={deleteTaskMember}
+          addTaskTag={addTaskTag}
+          deleteTaskTag={deleteTaskTag}
         />
       )}
     </div>

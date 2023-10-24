@@ -17,11 +17,6 @@ export default function DropdownComponent() {
   const { data } = useSession();
   const router = useRouter();
 
-  const themeStore = useThemeStore((state) => state);
-  const colorStore = useColorStore((state) => state);
-
-  console.log({ themeStore });
-
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-end">
